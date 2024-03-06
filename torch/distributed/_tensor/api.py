@@ -672,6 +672,15 @@ def distribute_module(
     torch._C._log_api_usage_once("torch.dtensor.distribute_module")
 
     device_mesh = device_mesh or _mesh_resources.get_current_mesh()
+    device_type = device_mesh.device_type
+    if device_type == "xla":
+        # call PyTorch/XLA SPMD for `xla` backend type device mesh.
+        # This returns annotated module for PyTorch/XLA SPMD.
+        from torch.distributed._tensor._xla import xla_distribute_module
+
+        return xla_distribute_module(
+            module, device_mesh, partition_fn, input_fn, output_fn
+        )  # type:ignore[return-value]
 
     def replicate_module_params_buffers(m: nn.Module, mesh: DeviceMesh) -> None:
         # This function loop over the immediate module parameters and
