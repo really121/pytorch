@@ -38,6 +38,7 @@ SLEEF_PUBLIC_HEADERS = [
 SLEEF_PRIVATE_INCLUDES = [
     "-Iexternal/sleef/src/arch",
     "-Iexternal/sleef/src/common",
+    "-Iexternal/sleef/src/libm",
 ]
 
 SLEEF_PUBLIC_INCLUDES = [
